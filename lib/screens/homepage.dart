@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_times/bloc/news_bloc.dart';
 import 'package:http/http.dart' as http;
+
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -14,7 +12,10 @@ class Homepage extends StatelessWidget {
       child: Scaffold(
         body: BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) {
-            return  state.status == NewsStatus.success ?  CustomScrollView(
+            if (state.status == NewsStatus.success)
+         {   
+          state.allResults.length;
+          return  CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
                   expandedHeight: 250.0,
@@ -31,11 +32,17 @@ class Homepage extends StatelessWidget {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate((_, index) {
-                    return ListTile(leading: Text("FDsfds"));
-                  }, childCount: 20),
+                    return Column(
+                      children: [
+                       
+                      ],
+                    );
+                  }, childCount: state.allResults.length),
                 )
               ],
-            ):Center(child: CircularProgressIndicator());
+            );
+         } 
+           return Center(child: CircularProgressIndicator());
           },
         ),
       ),
