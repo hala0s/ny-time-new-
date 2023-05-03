@@ -14,7 +14,6 @@ class Homepage extends StatelessWidget {
           builder: (context, state) {
             if (state.status == NewsStatus.success)
          {   
-          state.allResults.length;
           return  CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
@@ -32,12 +31,19 @@ class Homepage extends StatelessWidget {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate((_, index) {
-                    return Column(
-                      children: [
-                       
-                      ],
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all()
+                      ),
+                      margin: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                         Text(state.allResults?.results?[index].title ?? "")
+                        ],
+                      ),
                     );
-                  }, childCount: state.allResults.length),
+                  }, childCount: state.allResults?.results?.length),
                 )
               ],
             );

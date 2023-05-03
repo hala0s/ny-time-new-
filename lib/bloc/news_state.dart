@@ -5,17 +5,16 @@ enum NewsStatus { initial, success, failuer }
 class NewsState {
   const NewsState(
       {this.status = NewsStatus.initial,
-      this.allResults = const <AllResults>[],
+      this.allResults ,
       this.hasReachedMax = false,
       });
   final NewsStatus status;
-  final List<AllResults> allResults;
+  final AllResults? allResults;
   final bool hasReachedMax;
   
   NewsState copywith({
     NewsStatus? status,
-    List<Results>? results,
-    List<AllResults>? allResults,
+    AllResults? allResults,
     bool? hasReachedMax,
   }) {
     return NewsState(
@@ -27,7 +26,7 @@ class NewsState {
 
   @override
   String toString() {
-    return '''NewsState { status: $status, hasReachedMax: $hasReachedMax, posts: ${allResults.length} }''';
+    return '''NewsState { status: $status, hasReachedMax: $hasReachedMax, posts: $allResults }''';
   }
 
   @override

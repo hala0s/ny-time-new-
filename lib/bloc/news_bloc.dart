@@ -20,19 +20,12 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   final http.Client httpClient;
 
   Future<void> _onNewsFetched(Newsfetch event, Emitter<NewsState> emit) async {
-    if (state.hasReachedMax) return;
     try {
-      if (state.status == NewsStatus.initial) {
-        final allResults = await _fetchNews();
-        return emit(state.copywith(
-            status: NewsStatus.success, allResults: allResults, hasReachedMax: false));
-      }
-      final allResults = await _fetchNews(state.allResults.length);
-      allResults.isEmpty
-          ? emit(state.copywith(hasReachedMax: true))
-          : emit(state.copywith(
+
+      final allResults = await _fetchNews();
+       emit(state.copywith(
               status: NewsStatus.success,
-              allResults: List.of(state.allResults)..addAll(allResults),
+              allResults: allResults,
               hasReachedMax: false,
             ));
     } catch (_) {
@@ -40,7 +33,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     }
   }
 
-  Future<List<AllResults>> _fetchNews([int startIndex = 0]) async {
+  Future<AllResults> _fetchNews() async {
     try{
       final response = await 
     httpClient.get(
@@ -50,11 +43,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       headers: {'Content-Type': 'application/json; charset=UTF-8'}
     );
     // if (resonse.statusCode == 200) {
-      final body = json.decode(response.body)['results'] as List;
-      return body.map((dynamic json) {
-        final map = json as Map<String, dynamic>;
-        return AllResults.fromJson(map);
-      }).toList();
+      final body = json.decode(response.body) ;
+      return AllResults.fromJson(body);
     // }
     }catch (e){
       print(e.toString());
