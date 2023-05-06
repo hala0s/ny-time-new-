@@ -12,8 +12,8 @@ part 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc(
-    this.httpClient,
-  ) : super( NewsState()) {
+    this.httpClient
+  ) : super( const NewsState()) {
 
     on<Newsfetch>(_onNewsFetched);
   }
