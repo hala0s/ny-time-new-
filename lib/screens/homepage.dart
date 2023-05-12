@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_times/bloc/news_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
+final dio = Dio();
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewsBloc(http.Client())..add(Newsfetch()),
+      create: (context) => NewsBloc(dio)..add(Newsfetch()),
       child: Scaffold(
         body: BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) {
