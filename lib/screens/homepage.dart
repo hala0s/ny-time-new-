@@ -71,13 +71,12 @@ class _HomepageState extends State<Homepage> {
                               Expanded(
                                   flex: 1,
                                   child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        "https://libraries.emory.edu/sites/default/files/styles/coh_x_large/public/2022-08/New-York-Times.jpg?itok=VOucAZoX"),
+                                    backgroundImage:NetworkImage (state.allResults?.results?[index].media?[index].mediaMetadata[index].url ?? "https://library.northwestu.edu/wp-content/uploads/2019/06/nytimes.png")
                                   ))
                             ],
                           ),
                         );
-                      }, childCount: state.allResults?.results?.length),
+                      }, childCount: state.allResults?.results?[index].media?[index].mediaMetadata?.length,
                     )
                   ],
                 );
