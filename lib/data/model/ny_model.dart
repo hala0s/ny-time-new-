@@ -5,15 +5,15 @@ class AllResults {
   String? copyright;
   int? numresult;
   List<Results>? results;
-  List<Media> media ;
+  List<Media>? media ;
 
   static AllResults fromJson(Map<String, dynamic> json) {
     return AllResults(
       status: json['status'],
       copyright: json['copyright'],
       numresult: json['numresult'],
-      results: (json['results'] as List).map((e) => Results.fromJson(e)).toList(),
-      media: (json['media'] as List).map((e) => Media.fromJson(e)).toList(),
+      results: (json['results'] as List?)?.map((e) => Results.fromJson(e)).toList(),
+      media: (json['media'] as List?)?.map((e) => Media.fromJson(e)).toList(),
 
 
     );

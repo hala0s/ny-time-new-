@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_times/bloc/news_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:ny_times/bloc/theme_cubit.dart';
+import 'package:collection/collection.dart';
 
-   final dio = Dio(BaseOptions(
+final dio = Dio(BaseOptions(
     sendTimeout: const Duration(seconds: 20),
     connectTimeout: const Duration(seconds: 20),
-    receiveTimeout:const Duration(seconds: 20)));
+    receiveTimeout: const Duration(seconds: 20)));
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -47,9 +48,8 @@ class _HomepageState extends State<Homepage> {
                           return SwitchListTile(
                             value: state,
                             title: Text('Theme'),
-                            onChanged: ( value) {
-                              BlocProvider.of<ThemeCubit>(context)
-                                  .toggleTheme(value: value);
+                            onChanged: (value) {
+                              BlocProvider.of<ThemeCubit>(context).toggleTheme(value: value);
                             },
                           );
                         },
@@ -63,21 +63,18 @@ class _HomepageState extends State<Homepage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                      state.allResults?.results?[index].title ??
-                                          "")),
+                              Expanded(flex: 2, child: Text(state.allResults?.results?[index].title ?? "")),
                               Expanded(
                                   flex: 1,
                                   child: CircleAvatar(
-                                    backgroundImage:NetworkImage (state.allResults?.results?[index].media?[index].mediaMetadata[index].url ?? "https://library.northwestu.edu/wp-content/uploads/2019/06/nytimes.png")
-                                  ))
+                                      backgroundImage: NetworkImage(
+                                          state.allResults?.results?[index].media.firstOrNull?.mediaMetadata.firstOrNull?.url ??
+                                              "https://library.northwestu.edu/wp-content/uploads/2019/06/nytimes.png")))
                             ],
                           ),
                         );
-                      }, childCount: state.allResults?.results?[index].media?[index].mediaMetadata?.length,
-                    )
+                      }, childCount: state.allResults?.results?.length),
+                    ),
                   ],
                 );
               }
